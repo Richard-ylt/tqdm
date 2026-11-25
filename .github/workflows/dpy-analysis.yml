@@ -13,16 +13,20 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Run DPy (DesignitePy) analysis
-        uses: DesigniteTools/DPyAction@v1.0.0
+      - name: Install Python
+        uses: actions/setup-python@v5
         with:
-          PAT: ${{ secrets.PAT }}
-          input-dir: ./tqdm
-          output-dir: ./dpy-results
-          exclude: "tests,benchmarks"
-          output-format: csv,html
+          python-version: "3.11"
 
-      - name: Upload DPy analysis report as artifact
+      - name: Install DPy (DesignitePy)
+        run: pip install designite-py
+
+      - name: Run DPy local analysis
+        run: |
+          mkdir -p ./dpy-results
+          DPy analyze -i ./tqdm -o ./dpy-results --format csv
+
+      - name: Upload DPy analysis report
         uses: actions/upload-artifact@v4
         with:
           name: dpy-smell-report
