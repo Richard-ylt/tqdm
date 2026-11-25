@@ -14,11 +14,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run DPy (DesignitePy) analysis
-        uses: DesigniteTools/DPyAction@v1.2
+        uses: DesigniteTools/DPyAction@v1.0.0
         with:
+          PAT: ${{ secrets.PAT }}
           input-dir: ./tqdm
           output-dir: ./dpy-results
-          exclude: "tests"
+          exclude: "tests,benchmarks"
           output-format: csv,html
 
       - name: Upload DPy analysis report as artifact
