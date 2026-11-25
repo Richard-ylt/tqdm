@@ -1,9 +1,10 @@
 name: DPy Code Smell Analysis
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   dpy-scan:
@@ -15,13 +16,9 @@ jobs:
       - name: Run DPy (DesignitePy) analysis
         uses: DesigniteTools/designite-py-action@v1
         with:
-          # 扫描目录：tqdm源码目录
           input-dir: ./tqdm
-          # 输出报告目录
           output-dir: ./dpy-results
-          # 排除测试文件（重要，作业要求不重构测试代码）
           exclude: "tests"
-          # 选择输出格式：csv方便查看，也可以加html
           output-format: csv,html
 
       - name: Upload DPy analysis report as artifact
